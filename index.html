@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Spacing Calculator</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Courier New", monospace;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #0B0B1F, #1F1F3A);
+            background-color: #0B0B1F;
+            z-index: -2;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, #e4e4e4 1px, transparent 1px),
+                radial-gradient(circle, #e4e4e4 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            opacity: 0.1;
+            animation: twinkle 6s infinite alternate;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.2; }
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, #fff 1px, transparent 1px),
+                radial-gradient(circle, #fff 1px, transparent 1px);
+            background-size: 100px 100px;
+            background-position: 0 0, 50px 50px;
+            opacity: 0.1;
+            animation: twinkle 3s infinite alternate;
+            pointer-events: none;
+            z-index: -1;
+        }
+        :root {
+            --space-unit: clamp(8px, 2vw, 16px);
+            --space-xs: calc(var(--space-unit) * 0.5);
+            --space-sm: calc(var(--space-unit) * 1);  
+            --space-md: calc(var(--space-unit) * 1.5);
+            --space-lg: calc(var(--space-unit) * 2);  
+            --space-xl: calc(var(--space-unit) * 3);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: var(--space-lg);
+        }
+
+        .calculator {
+            background-color: rgba(16, 16, 37, 0.95);
+            padding: var(--space-xl);
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(88, 103, 221, 0.15),
+                       0 0 40px rgba(88, 103, 221, 0.1);
+            width: min(100% - var(--space-xl) * 2, 800px);
+            margin: var(--space-lg) auto;
+            border: 1px solid rgba(88, 103, 221, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, #fff 1px, transparent 1px),
+                radial-gradient(circle, #fff 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            opacity: 0.1;
+            animation: twinkle 3s infinite alternate;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .input-section {
+            margin-bottom: var(--space-lg);
+            display: flex;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+        .input-section label {
+            white-space: nowrap;
+            padding: var(--space-xs) 0;
+        }
+        input {
+            flex: 1;
+            padding: var(--space-sm) var(--space-md);
+            font-size: 16px;
+            font-family: "Courier New", monospace;
+            border: 1px solid rgba(88, 103, 221, 0.3);
+            border-radius: 4px;
+            background-color: rgba(16, 16, 37, 0.8);
+            color: #fff;
+            min-width: 0;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            margin: 0;
+            height: 48px;
+            box-sizing: border-box;
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+        button {
+            padding: var(--space-sm) var(--space-xl);
+            background: linear-gradient(135deg, #5867dd, #4152b0);
+            color: white;
+            border: none;
+            border-radius: var(--space-xs);
+            cursor: pointer;
+            font-size: 16px;
+            font-family: "Courier New", monospace;
+            white-space: nowrap;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #6878ee, #5163c1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(88, 103, 221, 0.4);
+        }
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(88, 103, 221, 0.3);
+            background: linear-gradient(135deg, #4152b0, #364291);
+        }
+        .table-container {
+            max-height: 0;
+            overflow-y: hidden;
+            margin-top: var(--space-lg);
+            border-radius: 8px;
+            transition: max-height 0.3s ease-in-out;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(88, 103, 221, 0.5) rgba(16, 16, 37, 0.2);
+        }
+        
+        .table-container.has-results {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .table-container::-webkit-scrollbar-track {
+            background: rgba(16, 16, 37, 0.2);
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb {
+            background-color: rgba(88, 103, 221, 0.5);
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(88, 103, 221, 0.7);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        th, td {
+            padding: var(--space-sm) var(--space-md);
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #5867dd, #4152b0);
+            color: white;
+            border-bottom: none;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(88, 103, 221, 0.1);
+        }
+        tr:hover {
+            background-color: rgba(88, 103, 221, 0.15);
+        }
+        footer {
+            text-align: center;
+            padding: var(--space-lg) var(--space-lg) 0;
+            margin-top: var(--space-xl);
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+        }
+        footer span {
+            font-weight: bold;
+            color: #5867dd;
+        }
+        .logo-container {
+            margin-bottom: var(--space-md);
+        }
+        .logo-container img {
+            height: 40px;
+            width: auto;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        .logo-container img:hover {
+            opacity: 1;
+        }
+
+        @media screen and (max-width: 600px) {
+            :root {
+                --space-unit: clamp(6px, 1.5vw, 12px);
+            }
+
+            h1 {
+                font-size: clamp(20px, 5vw, 24px);
+                margin-bottom: var(--space-md);
+            }
+
+            .input-section {
+                flex-direction: column;
+                gap: var(--space-md);
+            }
+
+            .input-section label {
+                width: 100%;
+                margin-bottom: var(--space-xs);
+            }
+
+            input, button {
+                width: 100%;
+            }
+
+            table {
+                font-size: clamp(13px, 3.5vw, 14px);
+            }
+
+            td:first-child {
+                min-width: 120px;
+            }
+        }
+        @media screen and (max-width: 320px) {
+            :root {
+                --space-unit: 6px;
+            }
+
+            h1 {
+                font-size: 18px;
+                margin-bottom: var(--space-md);
+            }
+
+            table {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="calculator">
+            <h1>Spacing Calculator</h1>
+            <div class="input-section">
+                <label for="baseNumber">Enter base number: </label>
+                <input type="number" id="baseNumber" step="any">
+                <button onclick="calculate()">Calculate</button>
+            </div>
+            <div class="table-container">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Multiplier</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="summary" style="margin-top: 20px; padding: 15px; background: rgba(88, 103, 221, 0.1); border-radius: 8px; display: none;">
+                <strong>Summary of Increments:</strong>
+                <div id="summaryText" style="margin-top: 8px; word-wrap: break-word; line-height: 1.5;"></div>
+            </div>
+        </div>
+    <footer>
+        <div class="logo-container">
+            <img src="assets/Logo-Sites-at-Scale.png" alt="Sites-at-Scale Logo" title="Sites-at-Scale">
+        </div>
+        <div>Created by <span>Ruben</span> • 2025</div>
+    </footer>
+
+    <script>const multipliers=[.25,.5,.75,1,1.5,2,3,4,6,8,12,16,24,32,40,48];function calculate(){const n=parseFloat(document.getElementById("baseNumber").value),t=document.getElementById("resultsBody"),e=document.querySelector(".table-container"),s=document.getElementById("summary"),m=document.getElementById("summaryText");if(isNaN(n))return void alert("Please enter a valid number");t.innerHTML="";const results=[];multipliers.forEach(e=>{const r=n*e,a=`<tr><td>${n} × ${e}</td><td>${Number.isInteger(r)?r:r.toFixed(2)}px</td></tr>`;t.innerHTML+=a;results.push(Number.isInteger(r)?r:r.toFixed(2))});m.textContent=results.join(", ");e.classList.add("has-results");s.style.display="block"}document.getElementById("baseNumber").addEventListener("keypress",function(e){"Enter"===e.key&&calculate()});</script>
+</body>
+</html>
