@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="assets/Logo-Sites-at-Scale.png">
+    <link rel="icon" type="image/png" href="img/Logo-Sites-at-Scale.png">
     <title>Spacing Calculator</title>
     <style>
         html, body {
@@ -330,7 +330,24 @@
 <body>
     <div class="page-wrapper">
         <div class="calculator">
-            <h1>Spacing Calculator</h1>
+            <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                <h1 style="margin: 0;">Spacing Calculator</h1>
+                <select id="scaleType" style="
+                    padding: var(--space-xs) var(--space-sm);
+                    background-color: rgba(16, 16, 37, 0.8);
+                    color: #fff;
+                    border: 1px solid rgba(88, 103, 221, 0.3);
+                    border-radius: 4px;
+                    font-family: 'Courier New', monospace;
+                    cursor: pointer;
+                ">
+                    <option value="hybrid">Hybrid Modular Scale</option>
+                    <option value="minorThird">Minor Third (1.2)</option>
+                    <option value="majorThird">Major Third (1.25)</option>
+                    <option value="perfectFourth">Perfect Fourth (1.333)</option>
+                    <option value="goldenRatio">Golden Ratio (1.618)</option>
+                </select>
+            </div>
             <div class="input-section">
                 <label for="baseNumber">Enter base number: </label>
                 <input type="number" id="baseNumber" step="any">
@@ -361,6 +378,56 @@
         <div>Created by <span>Ruben</span> • 2025</div>
     </footer>
 
-    <script>const multipliers=[.25,.5,.75,1,1.5,2,3,4,6,8,12,16,24,32,40,48];function calculate(){const n=parseFloat(document.getElementById("baseNumber").value),t=document.getElementById("resultsBody"),e=document.querySelector(".table-container"),s=document.getElementById("summary"),m=document.getElementById("summaryText");if(isNaN(n))return void alert("Please enter a valid number");t.innerHTML="";const results=[];multipliers.forEach(e=>{const r=n*e,a=`<tr><td>${n} × ${e}</td><td>${Number.isInteger(r)?r:r.toFixed(2)}px</td></tr>`;t.innerHTML+=a;results.push(Number.isInteger(r)?r:r.toFixed(2))});m.textContent=results.join(", ");e.classList.add("has-results");s.style.display="block"}document.getElementById("baseNumber").addEventListener("keypress",function(e){"Enter"===e.key&&calculate()});</script>
+    <script>
+        const scales = {
+            hybrid: [0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32, 40, 48],
+            minorThird: Array.from({length: 16}, (_, i) => Math.pow(1.2, i - 3)),
+            majorThird: Array.from({length: 16}, (_, i) => Math.pow(1.25, i - 3)),
+            perfectFourth: Array.from({length: 16}, (_, i) => Math.pow(1.333, i - 3)),
+            goldenRatio: Array.from({length: 16}, (_, i) => Math.pow(1.618, i - 3))
+        };
+
+        function calculate() {
+            const baseNumber = parseFloat(document.getElementById("baseNumber").value);
+            const scaleType = document.getElementById("scaleType").value;
+            const resultsBody = document.getElementById("resultsBody");
+            const tableContainer = document.querySelector(".table-container");
+            const summary = document.getElementById("summary");
+            const summaryText = document.getElementById("summaryText");
+
+            if (isNaN(baseNumber)) {
+                alert("Please enter a valid number");
+                return;
+            }
+
+            resultsBody.innerHTML = "";
+            const results = [];
+            const multipliers = scales[scaleType];
+
+            multipliers.forEach(multiplier => {
+                const result = Math.round(baseNumber * multiplier);
+                const row = `<tr>
+                    <td>${baseNumber} × ${multiplier.toFixed(3)}</td>
+                    <td>${result}px</td>
+                </tr>`;
+                resultsBody.innerHTML += row;
+                results.push(result);
+            });
+
+            summaryText.textContent = results.join(", ");
+            tableContainer.classList.add("has-results");
+            summary.style.display = "block";
+        }
+
+        document.getElementById("baseNumber").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") calculate();
+        });
+
+        document.getElementById("scaleType").addEventListener("change", function() {
+            if (document.getElementById("baseNumber").value) {
+                calculate();
+            }
+        });
+    </script>
 </body>
 </html>
