@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/png" href="assets/Logo-Sites-at-Scale.png">
+    <link rel="icon" type="image/png" href="img/Logo-Sites-at-Scale.png">
     <title>Spacing Calculator</title>
     <style>
         html, body {
@@ -39,19 +39,19 @@
             width: 100%;
             height: 100%;
             background-image: 
-                radial-gradient(circle, #e4e4e4 1px, transparent 1px),
-                radial-gradient(circle, #e4e4e4 1px, transparent 1px);
+                radial-gradient(circle, #fff 1px, transparent 1px),
+                radial-gradient(circle, #fff 1px, transparent 1px);
             background-size: 50px 50px;
             background-position: 0 0, 25px 25px;
             opacity: 0.1;
-            animation: twinkle 6s infinite alternate;
+            animation: twinkle 3s infinite alternate;
             pointer-events: none;
             z-index: -1;
         }
 
         @keyframes twinkle {
             0%, 100% { opacity: 0.1; }
-            50% { opacity: 0.2; }
+            50% { opacity: 0.3; }
         }
 
         .page-wrapper {
@@ -63,27 +63,6 @@
             box-sizing: border-box;
             position: relative;
             z-index: 1;
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle, #fff 1px, transparent 1px),
-                radial-gradient(circle, #fff 1px, transparent 1px);
-            background-size: 100px 100px;
-            background-position: 0 0, 50px 50px;
-            opacity: 0.1;
-            animation: twinkle 3s infinite alternate;
-            pointer-events: none;
-            z-index: -1;
         }
         :root {
             --space-unit: clamp(8px, 2vw, 16px);
@@ -379,55 +358,7 @@
     </footer>
 
     <script>
-        const scales = {
-            hybrid: [0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32, 40, 48],
-            minorThird: Array.from({length: 16}, (_, i) => Math.pow(1.2, i - 3)),
-            majorThird: Array.from({length: 16}, (_, i) => Math.pow(1.25, i - 3)),
-            perfectFourth: Array.from({length: 16}, (_, i) => Math.pow(1.333, i - 3)),
-            goldenRatio: Array.from({length: 16}, (_, i) => Math.pow(1.618, i - 3))
-        };
-
-        function calculate() {
-            const baseNumber = parseFloat(document.getElementById("baseNumber").value);
-            const scaleType = document.getElementById("scaleType").value;
-            const resultsBody = document.getElementById("resultsBody");
-            const tableContainer = document.querySelector(".table-container");
-            const summary = document.getElementById("summary");
-            const summaryText = document.getElementById("summaryText");
-
-            if (isNaN(baseNumber)) {
-                alert("Please enter a valid number");
-                return;
-            }
-
-            resultsBody.innerHTML = "";
-            const results = [];
-            const multipliers = scales[scaleType];
-
-            multipliers.forEach(multiplier => {
-                const result = Math.round(baseNumber * multiplier);
-                const row = `<tr>
-                    <td>${baseNumber} × ${multiplier.toFixed(3)}</td>
-                    <td>${result}px</td>
-                </tr>`;
-                resultsBody.innerHTML += row;
-                results.push(result);
-            });
-
-            summaryText.textContent = results.join(", ");
-            tableContainer.classList.add("has-results");
-            summary.style.display = "block";
-        }
-
-        document.getElementById("baseNumber").addEventListener("keypress", function(e) {
-            if (e.key === "Enter") calculate();
-        });
-
-        document.getElementById("scaleType").addEventListener("change", function() {
-            if (document.getElementById("baseNumber").value) {
-                calculate();
-            }
-        });
+    const scales={hybrid:[.25,.5,.75,1,1.5,2,3,4,6,8,12,16,24,32,40,48],minorThird:Array.from({length:16},(_,i)=>Math.pow(1.2,i-3)),majorThird:Array.from({length:16},(_,i)=>Math.pow(1.25,i-3)),perfectFourth:Array.from({length:16},(_,i)=>Math.pow(4/3,i-3)),goldenRatio:Array.from({length:16},(_,i)=>Math.pow((1+Math.sqrt(5))/2,i-3))};const calculate=()=>{const e=parseFloat(document.getElementById("baseNumber").value),t=document.getElementById("scaleType").value,n=document.getElementById("resultsBody");if(isNaN(e))return void alert("Please enter a valid number");n.innerHTML="";const a=[];scales[t].forEach(t=>{const l=Math.round(e*t);n.innerHTML+=`<tr><td>${e} × ${t.toFixed(3)}</td><td>${l}px</td></tr>`,a.push(l)});const l=document.getElementById("summaryText");l.textContent=a.join(", "),document.querySelector(".table-container").classList.add("has-results"),document.getElementById("summary").style.display="block"};document.getElementById("baseNumber").addEventListener("keypress",e=>{"Enter"===e.key&&calculate()}),document.getElementById("scaleType").addEventListener("change",()=>{document.getElementById("baseNumber").value&&calculate()});
     </script>
 </body>
 </html>
