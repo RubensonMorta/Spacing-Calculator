@@ -312,13 +312,22 @@
             <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
                 <h1 style="margin: 0;">Spacing Calculator</h1>
                 <select id="scaleType" style="
-                    padding: var(--space-xs) var(--space-sm);
+                    padding: var(--space-sm) var(--space-xl) var(--space-sm) var(--space-md);
                     background-color: rgba(16, 16, 37, 0.8);
                     color: #fff;
                     border: 1px solid rgba(88, 103, 221, 0.3);
                     border-radius: 4px;
                     font-family: 'Courier New', monospace;
                     cursor: pointer;
+                    height: 48px;
+                    text-align: center;
+                    text-align-last: center;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                    background-image: url('assets/dropdown-arrow.svg');
+                    background-repeat: no-repeat;
+                    background-position: right var(--space-md) center;
                 ">
                     <option value="hybrid">Hybrid Modular Scale</option>
                     <option value="minorThird">Minor Third (1.2)</option>
@@ -356,8 +365,10 @@
         </div>
         <div>by <span>Ruben</span> • <span id="currentYear"></span></div>
     </footer>
+
     <script>
-    document.getElementById('currentYear').textContent=new Date().getFullYear();const scales={hybrid:[.25,.5,.75,1,1.5,2,3,4,6,8,12,16,24,32,40,48],minorThird:Array.from({length:16},(_,i)=>Math.pow(1.2,i-3)),majorThird:Array.from({length:16},(_,i)=>Math.pow(1.25,i-3)),perfectFourth:Array.from({length:16},(_,i)=>Math.pow(4/3,i-3)),goldenRatio:Array.from({length:16},(_,i)=>Math.pow((1+Math.sqrt(5))/2,i-3))};const calculate=()=>{const e=parseFloat(document.getElementById("baseNumber").value),t=document.getElementById("scaleType").value,n=document.getElementById("resultsBody");if(isNaN(e))return void alert("Please enter a valid number");n.innerHTML="";const a=[];scales[t].forEach(t=>{const l=Math.round(e*t);n.innerHTML+=`<tr><td>${e} × ${t.toFixed(3)}</td><td>${l}px</td></tr>`,a.push(l)});const l=document.getElementById("summaryText");l.textContent=a.join(", "),document.querySelector(".table-container").classList.add("has-results"),document.getElementById("summary").style.display="block"};document.getElementById("baseNumber").addEventListener("keypress",e=>{"Enter"===e.key&&calculate()}),document.getElementById("scaleType").addEventListener("change",()=>{document.getElementById("baseNumber").value&&calculate()});
+    document.getElementById('currentYear').textContent=new Date().getFullYear();
+    const scales={hybrid:[.25,.5,.75,1,1.5,2,3,4,6,8,12,16,24,32,40,48],minorThird:Array.from({length:16},(_,i)=>Math.pow(1.2,i-3)),majorThird:Array.from({length:16},(_,i)=>Math.pow(1.25,i-3)),perfectFourth:Array.from({length:16},(_,i)=>Math.pow(4/3,i-3)),goldenRatio:Array.from({length:16},(_,i)=>Math.pow((1+Math.sqrt(5))/2,i-3))};const calculate=()=>{const e=parseFloat(document.getElementById("baseNumber").value),t=document.getElementById("scaleType").value,n=document.getElementById("resultsBody");if(isNaN(e))return void alert("Please enter a valid number");n.innerHTML="";const a=[];scales[t].forEach(t=>{const l=Math.round(e*t);n.innerHTML+=`<tr><td>${e} × ${t.toFixed(3)}</td><td>${l}px</td></tr>`,a.push(l)});const l=document.getElementById("summaryText");l.textContent=a.join(", "),document.querySelector(".table-container").classList.add("has-results"),document.getElementById("summary").style.display="block"};document.getElementById("baseNumber").addEventListener("keypress",e=>{"Enter"===e.key&&calculate()}),document.getElementById("scaleType").addEventListener("change",()=>{document.getElementById("baseNumber").value&&calculate()});
     </script>
 </body>
 </html>
